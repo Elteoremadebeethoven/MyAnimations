@@ -1,6 +1,6 @@
 #from big_ol_pile_of_manim_imports import *
 from manimlib.imports import *
-from my_animations.box.box_object import *
+from MyAnimationss.box.box_object import *
 
 
 class BoxAnimation(Scene):
