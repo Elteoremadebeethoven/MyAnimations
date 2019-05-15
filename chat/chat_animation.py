@@ -1,5 +1,7 @@
-#from big_ol_pile_of_manim_imports import *
-from manimlib.imports import *
+#Only it works in previous versions of February 3, 2019
+
+from big_ol_pile_of_manim_imports import *
+
 from my_animations.chat.chat_code import *
 
 class Chat(Scene):
