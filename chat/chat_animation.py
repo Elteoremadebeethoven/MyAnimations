@@ -2,7 +2,7 @@
 
 from big_ol_pile_of_manim_imports import *
 
-from my_animations.chat.chat_code import *
+from MyAnimations.chat.chat_code import *
 
 class Chat(Scene):
     def construct(self):
