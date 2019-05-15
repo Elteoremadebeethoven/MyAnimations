@@ -7,15 +7,15 @@ from my_animations.chat.chat_code import *
 class Chat(Scene):
     def construct(self):
         conversation = Conversation(self)
-        conversation.add_bubble("Hola!")
+        conversation.add_bubble("Hi!")
         self.wait(2)
-        conversation.add_bubble("Hola, qué tal?")
+        conversation.add_bubble("Hi! Whats up!")
         self.wait(2)
-        conversation.add_bubble("Esta es mi primera animación de\\\\ conversación.")
+        conversation.add_bubble("This is my first animation of chat")
         self.wait(3) # 41
-        conversation.add_bubble("Está muy bien!")
+        conversation.add_bubble("That's awesome")
         self.wait(2) # 48
-        conversation.add_bubble("Gracias! :D")
+        conversation.add_bubble("Thanks")
         self.wait(2)
         self.play(FadeOut(conversation.dialog[:]))
         self.wait()
