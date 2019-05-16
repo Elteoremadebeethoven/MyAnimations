@@ -84,5 +84,6 @@ In this repository you will find the code and files of my own animations of mani
 \DeclareMathSymbol{\syx}{3}{matha}{"D8}
 %------------------------------------
 ```
-2. Copy all files .svg to SVG directory.
-3. Copy the audio files to sounds directory
+2. Copy the .svg files to SVG directory.
+3. Copy the image files to raster_images directory.
+4. Copy the audio files to sounds directory
