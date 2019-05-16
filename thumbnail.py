@@ -1,16 +1,5 @@
 #from big_ol_pile_of_manim_imports import *
 from manimlib.imports import *
-from MyAnimations.chat.chat_code import *
-
-class Chat(Scene):
-    def construct(self):
-        conversation = Conversation(self)
-        conversation.add_bubble("Hola!")
-        self.wait(2)
-        conversation.add_bubble("Hola, qué tal?")
-        self.wait(2)
-        conversation.add_bubble("Esta es mi primera animación de\\\\ conversación.")
-        self.wait(3) # 41
 
 class underline(Line):
     def __init__(self,texto,buff=0.07,**kwargs):
