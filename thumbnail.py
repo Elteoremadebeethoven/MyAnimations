@@ -47,47 +47,26 @@ class Thumbnail(GraphScene):
         input_tracker_p1 = ValueTracker(1.5)
         input_tracker_p2 = ValueTracker(3.5)
 
-        def get_x_value_p1():
-            return input_tracker_p1.get_value()
+        def get_x_value(input_tracker):
+            return input_tracker.get_value()
 
-        def get_x_value_p2():
-            return input_tracker_p2.get_value()
+        def get_y_value(input_tracker):
+            return graph.underlying_function(get_x_value(input_tracker))
 
-        def get_y_value_p1():
-            return graph.underlying_function(get_x_value_p1())
+        def get_x_point(input_tracker):
+            return self.coords_to_point(get_x_value(input_tracker), 0)
 
-        def get_y_value_p2():
-            return graph.underlying_function(get_x_value_p2())
+        def get_y_point(input_tracker):
+            return self.coords_to_point(0, get_y_value(input_tracker))
 
-        def get_x_point_p1():
-            return self.coords_to_point(get_x_value_p1(), 0)
+        def get_graph_point(input_tracker):
+            return self.coords_to_point(get_x_value(input_tracker), get_y_value(input_tracker))
 
-        def get_x_point_p2():
-            return self.coords_to_point(get_x_value_p2(), 0)
+        def get_v_line(input_tracker):
+            return DashedLine(get_x_point(input_tracker), get_graph_point(input_tracker), stroke_width=2)
 
-        def get_y_point_p1():
-            return self.coords_to_point(0, get_y_value_p1())
-
-        def get_y_point_p2():
-            return self.coords_to_point(0, get_y_value_p2())
-
-        def get_graph_point_p1():
-            return self.coords_to_point(get_x_value_p1(), get_y_value_p1())
-
-        def get_graph_point_p2():
-            return self.coords_to_point(get_x_value_p2(), get_y_value_p2())
-
-        def get_v_line_p1():
-            return DashedLine(get_x_point_p1(), get_graph_point_p1(), stroke_width=2)
-
-        def get_v_line_p2():
-            return DashedLine(get_x_point_p2(), get_graph_point_p2(), stroke_width=2)
-
-        def get_h_line_p1():
-            return DashedLine(get_graph_point_p1(), get_y_point_p1(), stroke_width=2)
-
-        def get_h_line_p2():
-            return DashedLine(get_graph_point_p2(), get_y_point_p2(), stroke_width=2)
+        def get_h_line(input_tracker):
+            return DashedLine(get_graph_point(input_tracker), get_y_point(input_tracker), stroke_width=2)
         # 
         input_triangle_p1 = RegularPolygon(n=3, start_angle=TAU / 4)
         output_triangle_p1 = RegularPolygon(n=3, start_angle=0)
@@ -102,59 +81,19 @@ class Thumbnail(GraphScene):
             triangle.set_fill(WHITE, 1)
             triangle.set_stroke(width=0)
             triangle.scale(0.1)
-        # 
-        input_triangle_p1.add_updater(
-            lambda m: m.move_to(get_x_point_p1(), DOWN)
-        )
-        output_triangle_p1.add_updater(lambda m: m.move_to(get_y_point_p1(), LEFT)
-        )
-        # 
-        input_triangle_p2.add_updater(lambda m: m.move_to(get_x_point_p2(), DOWN)
-        )
-        output_triangle_p2.add_updater(lambda m: m.move_to(get_y_point_p2(), LEFT)
-        )
+        
         # 
         x_label_p1 = TexMobject("a")
-        x_label_p1.add_updater(lambda ma: ma.next_to(input_triangle_p1, DOWN, SMALL_BUFF)
-        )
-
         output_label_p1 = TexMobject("f(a)")
-        output_label_p1.add_updater(lambda ma: ma.next_to(
-                output_triangle_p1, LEFT, SMALL_BUFF)
-        )
-        # 
         x_label_p2 = TexMobject("b")
-        x_label_p2.add_updater(lambda mb: mb.next_to(input_triangle_p2, DOWN, SMALL_BUFF)
-        )
-
         output_label_p2 = TexMobject("f(b)")
-        output_label_p2.add_updater(lambda mb: mb.next_to(
-                output_triangle_p2, LEFT, SMALL_BUFF)
-        )
-        # V_lines de a
-        v_line_p1 = get_v_line_p1()
-        v_line_p1.add_updater(lambda vla: Transform(vla, get_v_line_p1())
-        )
-        # V_lines de b
-        v_line_p2 = get_v_line_p2()
-        v_line_p2.add_updater(lambda vlb: Transform(vlb, get_v_line_p2())
-        )
-        # h_lines de a
-        h_line_p1 = get_h_line_p1()
-        h_line_p1.add_updater(lambda hla: Transform(hla, get_h_line_p1())
-        )
-        # h_lines de b
-        h_line_p2 = get_h_line_p2()
-        h_line_p2.add_updater(lambda hlb: Transform(hlb, get_h_line_p2())
-        )
-        # Animacion del punto a
+        v_line_p1 = get_v_line(input_tracker_p1)
+        v_line_p2 = get_v_line(input_tracker_p2)
+        h_line_p1 = get_h_line(input_tracker_p1)
+        h_line_p2 = get_h_line(input_tracker_p2)
         graph_dot_p1 = Dot(color=COLOR_SYMBOL)
-        graph_dot_p1.add_updater(lambda ma: ma.move_to(get_graph_point_p1())
-        )
-        # Animacion del punto b
         graph_dot_p2 = Dot(color=COLOR_SYMBOL)
-        graph_dot_p2.add_updater(lambda mb: mb.move_to(get_graph_point_p2())
-        )
+
         #
         self.play(
             ShowCreation(graph),
@@ -204,26 +143,7 @@ class Thumbnail(GraphScene):
             df_line_color= "#3f7d5c",
             secant_line_color = RED,
         )
-        start_dx = grupo_secante.kwargs["dx"]
-        start_x = grupo_secante.kwargs["x"]
-        def update_func_0(group, alpha):
-            dx = interpolate(start_dx, 4, alpha)
-            x = interpolate(start_x, 1.5, alpha)
-            kwargs = dict(grupo_secante.kwargs)
-            kwargs["dx"] = dx
-            kwargs["x"] = x
-            new_group = self.get_secant_slope_group(**kwargs)
-            group.become(new_group)
-            return group
-        def update_func_1(group, alpha):
-            dx = interpolate(start_dx, 0.001, alpha)
-            x = interpolate(start_x, 1.5, alpha)
-            kwargs = dict(grupo_secante.kwargs)
-            kwargs["dx"] = dx
-            kwargs["x"] = x
-            new_group = self.get_secant_slope_group(**kwargs)
-            group.become(new_group)
-            return group
+
 
         self.add(
             input_triangle_p2,
