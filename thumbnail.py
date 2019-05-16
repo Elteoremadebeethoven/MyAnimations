@@ -101,40 +101,23 @@ class Thumbnail(GraphScene):
         # Animacion del punto a
         self.add_foreground_mobject(graph_dot_p1)
         self.add_foreground_mobject(graph_dot_p2)
-        self.play(
-            DrawBorderThenFill(input_triangle_p1),
-            Write(x_label_p1),
-            ShowCreation(v_line_p1),
-            GrowFromCenter(graph_dot_p1),
-            ShowCreation(h_line_p1),
-            Write(output_label_p1),
-            DrawBorderThenFill(output_triangle_p1),
-            DrawBorderThenFill(input_triangle_p2),
-            Write(x_label_p2),
-            ShowCreation(v_line_p2),
-            GrowFromCenter(graph_dot_p2),
-            ShowCreation(h_line_p2),
-            Write(output_label_p2),
-            DrawBorderThenFill(output_triangle_p2),
-            run_time=0.5
-        )
         self.add(
+            input_triangle_p1,
+            x_label_p1,
+            v_line_p1,
+            graph_dot_p1,
+            h_line_p1,
+            output_label_p1,
+            output_triangle_p1,
             input_triangle_p2,
             x_label_p2,
-            graph_dot_p2,
             v_line_p2,
+            graph_dot_p2,
             h_line_p2,
-            output_triangle_p2,
             output_label_p2,
+            output_triangle_p2,
         )
         ###################
-        pendiente_recta = self.get_secant_slope_group(
-            1.9, recta, dx = 1.4,
-            df_label = None,
-            dx_label = None,
-            dx_line_color = PURPLE,
-            df_line_color= ORANGE,
-            )
         grupo_secante = self.get_secant_slope_group(
             1.5, graph, dx = 2,
             df_label = None,
@@ -144,14 +127,6 @@ class Thumbnail(GraphScene):
             secant_line_color = RED,
         )
 
-
-        self.add(
-            input_triangle_p2,
-            graph_dot_p2,
-            v_line_p2,
-            h_line_p2,
-            output_triangle_p2,
-        )
         self.play(FadeIn(grupo_secante))
 
         kwargs = {
