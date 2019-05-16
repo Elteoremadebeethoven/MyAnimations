@@ -1,7 +1,7 @@
 #from big_ol_pile_of_manim_imports import *
 from manimlib.imports import *
 
-class BielaManivelaCorredera(Scene):
+class SliderCrankMechanism(Scene):
 	CONFIG={
 		"a":2,
 		"b":-6.5,
