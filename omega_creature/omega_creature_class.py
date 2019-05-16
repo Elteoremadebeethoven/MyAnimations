@@ -48,7 +48,7 @@ MOUTH_INDEX = 5
 
 class OmegaCreature(SVGMobject):
     CONFIG = {
-        "color": BLUE_E,
+        "color": RED,
         "file_name_prefix": "OmegaCreature",
         "stroke_width": 0,
         "stroke_color": BLACK,
