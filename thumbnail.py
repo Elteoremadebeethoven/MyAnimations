@@ -141,27 +141,27 @@ class Thumbnail(GraphScene):
         output_label_p2.add_updater(lambda mb: mb.next_to(
                 output_triangle_p2, LEFT, SMALL_BUFF)
         )
-        # V_lines de a
+        # 
         v_line_p1 = get_v_line_p1()
         v_line_p1.add_updater(lambda vla: Transform(vla, get_v_line_p1())
         )
-        # V_lines de b
+        # 
         v_line_p2 = get_v_line_p2()
         v_line_p2.add_updater(lambda vlb: Transform(vlb, get_v_line_p2())
         )
-        # h_lines de a
+        # 
         h_line_p1 = get_h_line_p1()
         h_line_p1.add_updater(lambda hla: Transform(hla, get_h_line_p1())
         )
-        # h_lines de b
+        # 
         h_line_p2 = get_h_line_p2()
         h_line_p2.add_updater(lambda hlb: Transform(hlb, get_h_line_p2())
         )
-        # Animacion del punto a
+        # 
         graph_dot_p1 = Dot(color=COLOR_SYMBOL)
         graph_dot_p1.add_updater(lambda ma: ma.move_to(get_graph_point_p1())
         )
-        # Animacion del punto b
+        # 
         graph_dot_p2 = Dot(color=COLOR_SYMBOL)
         graph_dot_p2.add_updater(lambda mb: mb.move_to(get_graph_point_p2())
         )
@@ -169,7 +169,7 @@ class Thumbnail(GraphScene):
         self.play(
             ShowCreation(graph),
         )
-        # Animacion del punto a
+        # Animacion 
         self.add_foreground_mobject(graph_dot_p1)
         self.add_foreground_mobject(graph_dot_p2)
         self.play(
