@@ -19,9 +19,12 @@ class FormulaCSV(ExportCSV):
 ```
 The result is this image:
 
+<p align="center"><img src ="/export_csv_file/images/im1.png" /></p>
 
 And a .csv that you can find at `/proyect_path/name_of_file.py/scene_name.csv`
 In our example the diretory is: `my_projects/project/FormulaCSV.py`
+
+<p align="center"><img src ="/export_csv_file/images/im2.png" /></p>
 
 ## Remove elements
 We can see in the example that the number 2 have a empty object, so we can remove it with:
@@ -35,13 +38,17 @@ class FormulaCSV(ExportCSV):
 ```
 Result:
 
+<p align="center"><img src ="/export_csv_file/images/im3.png" /></p>
+
 So the change is affected in the .csv file too:
+
+<p align="center"><img src ="/export_csv_file/images/im4.png" /></p>
 
 ## Create a .csv file with pairs
 
 Soupose that we can do this transformation:
 
-
+<p align="center"><img src ="/export_csv_file/images/im5.gif" /></p>
 
 Then, we have to write three formulas, and we have to use ReplacementTransform.
 
@@ -82,11 +89,17 @@ class FormulaFiles(ExportCSVPairs):
 
 If you render all scenes with `-as` then you create a scenes.png and .csv files:
 
+<p align="center"><img src ="/export_csv_file/images/im_ex.png" /></p>
 
-You can delete the `_None.csv`file, in the `formula.csv` file you can see this:
+You can delete the `_None.csv` file, in the `Formula.csv` file you can see this:
 
+<p align="center"><img src ="/export_csv_file/images/im6.png" /></p>
 
 And, with a little work you can organice the elements to do the ReplatementTransform thing:
+
+<p align="center"><img src ="/export_csv_file/images/im7.png" /></p>
+
+<p align="center"><img src ="/export_csv_file/images/im8.png" /></p>
 
 
 Once you have write the changes, then  you can write the scene:
@@ -136,4 +149,4 @@ class TransformFormulas(Scene):
         self.wait()
 ```
 
-And this is the result:
+And this is the result is that we want to.
