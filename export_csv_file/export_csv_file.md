@@ -22,6 +22,7 @@ The result is this image:
 <p align="center"><img src ="/export_csv_file/images/im1.png" /></p>
 
 And a .csv that you can find at `/proyect_path/name_of_file.py/scene_name.csv`
+
 In our example the diretory is: `my_projects/project/FormulaCSV.py`
 
 <p align="center"><img src ="/export_csv_file/images/im2.png" /></p>
@@ -46,7 +47,7 @@ So the change is affected in the .csv file too:
 
 ## Create a .csv file with pairs
 
-Soupose that we can do this transformation:
+Suppose that we want to do this transformation:
 
 <p align="center"><img src ="/export_csv_file/images/im5.gif" /></p>
 
@@ -57,7 +58,7 @@ Copy [this](https://github.com/Elteoremadebeethoven/MyAnimations/blob/master/exp
 ```python3
 class Formula1CSV(ExportCSVPairs):
     CONFIG={
-    "csv_name":"Formula", # <- Name of the series of formulas, this name is the same for all formulas
+    "csv_name":"Formula", # <- This name is the same for all ExportCSVParis scenes
     "csv_number":0,       # <- This is a formula number 0
     "text":TexMobject("a","x","^","2","+","b","x","+","c","=","0"),
     "remove":[2]
@@ -65,7 +66,7 @@ class Formula1CSV(ExportCSVPairs):
 
 class Formula2CSV(ExportCSVPairs):
     CONFIG={
-    "csv_name":"Formula", # <- Name of the series of formulas, this name is the same for all formulas
+    "csv_name":"Formula", # <- This name is the same for all ExportCSVParis scenes
     "csv_number":1,       # <- This is a formula number 1
     "text":TexMobject("a","x","^","2","+","b","x","=","-","c"),
     "remove":[2]
@@ -73,7 +74,7 @@ class Formula2CSV(ExportCSVPairs):
 
 class Formula3CSV(ExportCSVPairs):
     CONFIG={
-    "csv_name":"Formula", # <- Name of the series of formulas, this name is the same for all formulas
+    "csv_name":"Formula", # <- This name is the same for all ExportCSVParis scenes
     "csv_number":2,       # <- This is a formula number 2
     "text":TexMobject("x","^","2","+","{","b","\\over","a","}","x","=","-","{","c","\\over","a","}"),
     "remove":[1,4,8,12,16]
@@ -81,7 +82,7 @@ class Formula3CSV(ExportCSVPairs):
 
 class FormulaFiles(ExportCSVPairs):
     CONFIG={
-    "csv_name":"Formula", # <- Name of the series of formulas, this name is the same for all formulas
+    "csv_name":"Formula", # <- This name is the same for all ExportCSVParis scenes
     "csv_range":2, # This is the range of the formulas, start with the formula 0 and ends with formula 2
     "csv_complete":True   # <- Use this line to create the entire document
     }
