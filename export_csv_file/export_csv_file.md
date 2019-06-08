@@ -1,3 +1,5 @@
+# ATTENTION - THIS METHOD CAN TO HAVE ERRORS IF YOU USE \sqrt
+
 # Create a list of the elements of a TeX formula
 Copy and paste [this](https://github.com/Elteoremadebeethoven/MyAnimations/blob/master/export_csv_file/export_csv_file.py) code in your project and use it with the next format:
 
