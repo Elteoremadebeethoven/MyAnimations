@@ -6,6 +6,9 @@ class CheckFormula(CheckFormulaByTXT):
       "text":TexMobject("...") # or TextMobject
     }
 ```
+
+You have to render it with `-ps'
+
 ## Example:
 ```python3
 class CheckFormula(CheckFormulaByTXT):
