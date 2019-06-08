@@ -14,7 +14,6 @@ class ExportCSV(Scene):
     "csv_desfase":[],
     "cvs_sobrantes":0,
     "file":"",
-    #"directory":"",
     "svg_scale":0.9,
     "angle":0,
     "flip_svg":False,
@@ -47,10 +46,7 @@ class ExportCSV(Scene):
         if not os.path.exists(CSV_DIR):
             os.makedirs(CSV_DIR)
 
-        if not self.csv_complete:
-            self.create_csv()
-        else:
-            self.create_complete_csv()
+        self.create_csv()
 
 
 
@@ -122,34 +118,3 @@ class ExportCSV(Scene):
             c = c + 1 
         return tex_string,tex_number
 
-    def create_complete_csv(self):
-        import csv
-        def rango(n):
-            return range(n+1)
-
-        rows=[]
-
-        for string in rango(self.csv_range):
-            with open(self.directory+'/%s_%s.csv'%(self.__class__.__name__,string), 'r') as f:
-                reader = csv.reader(f,delimiter=',')
-                cont=0
-                for row in reader:
-                    new_row=[]
-                    if cont==0:
-                        for r in row:
-                            r+=','
-                            new_row.append(r)
-                            cont+=1
-                        rows.append(new_row)
-                    else:
-                        rows.append(row)
-                
-                rows.append("\n")
-
-
-        with open(self.file_directory+'/%s.csv'%self.csv_name,'w',newline='') as fp:
-            a = csv.writer(fp, delimiter=',')
-            data = [
-                      *rows
-                    ]
-            a.writerows(data)
