@@ -87,3 +87,53 @@ You can delete the `_None.csv`file, in the `formula.csv` file you can see this:
 
 
 And, with a little work you can organice the elements to do the ReplatementTransform thing:
+
+
+Once you have write the changes, then  you can write the scene:
+```python3
+class TransformFormulas(Scene):
+    def construct(self):
+        formula1=TexMobject("a","x","^","2","+","b","x","+","c","=","0")
+        formula2=TexMobject("a","x","^","2","+","b","x","=","-","c")
+        formula3=TexMobject("x","^","2","+","{","b","\\over","a","}","x","=","-","{","c","\\over","a","}")
+
+        self.play(Write(formula1))
+
+        changes1=[
+        (   0,  1,  3,  4,  5,  6,  7,  8,  9,      ),
+        (   0,  1,  3,  4,  5,  6,  8,  9,  7,  )   
+        ]
+        changes2=[
+        (   0,  1,  3,  4,  5,  6,  7,  8,  9,  ),
+        (   7,  0,  2,  3,  5,  9,  10, 11, 13, )
+        ]
+
+        # Changes 1
+        self.play(
+            *[
+                ReplacementTransform(
+                    formula1[pre_formula],formula2[pos_formula]
+                    )
+                for pre_formula,pos_formula in zip(changes1[0],changes1[1])
+            ],
+                FadeOut(formula1[10])
+            )
+
+        self.wait()
+        # Changes 2
+
+        self.play(
+            *[
+                ReplacementTransform(
+                    formula2[pre_formula],formula3[pos_formula]
+                    )
+                for pre_formula,pos_formula in zip(changes2[0],changes2[1])
+            ],
+                ReplacementTransform(formula2[0].copy(),formula3[15]), # Copy
+                *[Write(formula3[i])for i in [6,14]],
+            )
+
+        self.wait()
+```
+
+And this is the result:
