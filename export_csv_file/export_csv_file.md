@@ -41,7 +41,7 @@ Result:
 
 <p align="center"><img src ="/export_csv_file/images/im3.png" /></p>
 
-So the change is affected in the .csv file too:
+The change also affects the .csv file:
 
 <p align="center"><img src ="/export_csv_file/images/im4.png" /></p>
 
