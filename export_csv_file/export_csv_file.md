@@ -69,7 +69,7 @@ class Formula3CSV(ExportCSVPairs):
     "csv_name":"Formula", # <- Name of the series of formulas, this name is the same for all formulas
     "csv_number":2,       # <- This is a formula number 2
     "text":TexMobject("x","^","2","+","{","b","\\over","a","}","x","=","-","{","c","\\over","a","}"),
-    "remove":[1,4,7,11,15]
+    "remove":[1,4,8,12,16]
     }
 
 class FormulaFiles(ExportCSVPairs):
