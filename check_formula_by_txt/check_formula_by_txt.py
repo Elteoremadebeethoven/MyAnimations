@@ -1,6 +1,8 @@
 #from big_ol_pile_of_manim_imports import *
 from manimlib.imports import *
 
+from big_ol_pile_of_manim_imports import *
+
 class CheckFormulaByTXT(Scene):
     CONFIG={
     "camera_config":{"background_color": BLACK},
@@ -31,9 +33,8 @@ class CheckFormulaByTXT(Scene):
     }
     def construct(self):
         self.imagen=self.text
-        if self.set_size=="width":
-            self.imagen.set_width(FRAME_WIDTH)
-        else:
+        self.imagen.set_width(FRAME_WIDTH)
+        if self.imagen.get_height()>FRAME_HEIGHT:
             self.imagen.set_height(FRAME_HEIGHT)
         self.imagen.scale(self.svg_scale)
         if self.flip_svg==True:
