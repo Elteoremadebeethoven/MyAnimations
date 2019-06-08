@@ -119,4 +119,4 @@ Result:
 
 <p align="center"><img src ="/check_formula_by_txt/images/im5.png" /></p>
 
-# If you want to export the number as a list in a .csv file check [this](link)
+# If you want to export the number as a list in a .csv file check [this](https://github.com/Elteoremadebeethoven/MyAnimations/blob/master/export_csv_file/export_csv_file.md)
