@@ -21,7 +21,7 @@ The result is this image:
 
 <p align="center"><img src ="/export_csv_file/images/im1.png" /></p>
 
-And a .csv that you can find at `/proyect_path/name_of_file.py/scene_name.csv`
+And a .csv that you can find at `csv_files/proyect_path/name_of_file.py/scene_name.csv`
 
 In our example the diretory is: `my_projects/project/FormulaCSV.py`
 
