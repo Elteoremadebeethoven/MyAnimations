@@ -7,3 +7,42 @@ class CheckFormula(CheckFormulaByTXT):
     }
 ```
 ## Example:
+```python3
+class CheckFormula(CheckFormulaByTXT):
+    CONFIG={
+    "text":TexMobject(
+        "\\sqrt{",
+        "\\left(",
+        "x",
+        "+",
+        "{",
+        "b",
+        "\\over",
+        "2",
+        "a",
+        "}",
+        "\\right)",
+        "^",
+        "2",
+        "}",
+        "=",
+        "\\pm",
+        "\\sqrt{",
+        "{",
+        "b",
+        "^",
+        "2",
+        "-",
+        "4",
+        "a",
+        "c",
+        "\\over",
+        "4",
+        "a",
+        "^",
+        "{",
+        ")",
+        )
+    }
+```
+The result is:
