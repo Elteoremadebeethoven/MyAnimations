@@ -1,5 +1,5 @@
 # Format:
-Copy the code from [here](https://github.com/Elteoremadebeethoven/MyAnimations/blob/master/check_formula_by_txt/check_formula_by_txt.py) and paste it in your code, and create an scene like this:
+Copy the code from [here](https://github.com/Elteoremadebeethoven/MyAnimations/blob/master/check_formula_by_txt/check_formula_by_txt.py) and paste it in your project, and create an scene like this:
 ```python3
 class CheckFormula(CheckFormulaByTXT):
     CONFIG={
@@ -66,7 +66,7 @@ Result:
 
 <p align="center"><img src ="/check_formula_by_txt/images/im2.png" /></p>
 
-If you remove a element that appears in the formula, then this element shows in red:
+If you remove a element that appears in the formula, then that element shows in red:
 ```python3
 class CheckFormulaBadRemove(CheckFormulaByTXT):
     CONFIG={
@@ -119,4 +119,4 @@ Result:
 
 <p align="center"><img src ="/check_formula_by_txt/images/im5.png" /></p>
 
-# If you want to export the number as a list in a .csv file check [this](https://github.com/Elteoremadebeethoven/MyAnimations/blob/master/export_csv_file/export_csv_file.md)
+# If you want to export the numbers as a list in a .csv file check [this](https://github.com/Elteoremadebeethoven/MyAnimations/blob/master/export_csv_file/export_csv_file.md)
