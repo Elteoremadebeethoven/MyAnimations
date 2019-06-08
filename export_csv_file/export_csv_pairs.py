@@ -36,19 +36,25 @@ class ExportCSVPairs(Scene):
     "stroke_":1
     }
     def construct(self):
-        CSV_DIR = os.path.join(self.directory)
+        self.file_directory=self.__class__.__module__.replace(".", os.path.sep)
+        self.directory = os.path.join("csv_files",self.file_directory)
+        CSV_DIR=self.directory
+        print("\n")
+        print("CSV directory at: ",CSV_DIR)
 
         if not os.path.exists(CSV_DIR):
             os.makedirs(CSV_DIR)
 
-        if not self.csv_complete:
-            self.create_csv()
-        else:
-            self.create_complete_csv()
+        if not self.csv_name==None:
+            if not self.csv_complete:
+                self.create_csv()
+            else:
+                self.create_complete_csv()
 
 
 
     def create_csv(self):
+        import csv
         self.imagen=self.text
         if self.set_size=="width":
             self.imagen.set_width(FRAME_WIDTH)
@@ -62,13 +68,14 @@ class ExportCSVPairs(Scene):
                 self.remove,
                 self.space_between_numbers,
                 self.color_numbers)
-        with open(self.directory+'%s_%s.csv'%(self.csv_name,self.csv_number),'w',newline='') as fp:
+        with open(self.directory+'/%s_%s.csv'%(self.csv_name,self.csv_number),'w',newline='') as fp:
             a = csv.writer(fp, delimiter=',')
             data = [
                         tex_number,
                         tex_string
                     ]
             a.writerows(data)
+
 
     def print_formula(self,text,inverse_scale,direction,exception,buff,color):
         tex_string=[]
@@ -102,6 +109,7 @@ class ExportCSVPairs(Scene):
         return tex_string,tex_number
 
     def create_complete_csv(self):
+        import csv
         def rango(n):
             return range(n+1)
         def add_quote(row):
@@ -127,7 +135,7 @@ class ExportCSVPairs(Scene):
         for f_i,f_f in zip(list_0,list_1):
             for string in range(f_i,f_f+1):
                 pre_rows=[]
-                with open(self.directory+'%s_%s.csv'%(self.csv_name,string), 'r') as f:
+                with open(self.directory+'/%s_%s.csv'%(self.csv_name,string), 'r') as f:
                     reader = csv.reader(f,delimiter=',')
                     for row in reader:
                         pre_rows.append(row)
@@ -159,9 +167,10 @@ class ExportCSVPairs(Scene):
 
 
 
-        with open(self.directory+'%s.csv'%self.csv_name,'w',newline='') as fp:
+        with open(self.directory+'/%s.csv'%self.csv_name,'w',newline='') as fp:
             a = csv.writer(fp, delimiter=',')
             data = [
                       *rows
                     ]
             a.writerows(data)
+
