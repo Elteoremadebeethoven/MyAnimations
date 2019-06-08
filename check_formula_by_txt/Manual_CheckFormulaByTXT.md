@@ -47,6 +47,8 @@ class CheckFormula(CheckFormulaByTXT):
 ```
 The result is:
 
+<p align="center"><img src ="/check_formula_by_txt/images/im1.png" /></p>
+
 ## Remove elements:
 If you want to remove some elements you can use:
 ```python3
@@ -62,6 +64,8 @@ class CheckFormulaRemove(CheckFormulaByTXT):
 ```
 Result:
 
+<p align="center"><img src ="/check_formula_by_txt/images/im2.png" /></p>
+
 If you remove a element that appears in the formula, then this element shows in red:
 ```python3
 class CheckFormulaBadRemove(CheckFormulaByTXT):
@@ -75,6 +79,8 @@ class CheckFormulaBadRemove(CheckFormulaByTXT):
     }
 ```
 Result:
+
+<p align="center"><img src ="/check_formula_by_txt/images/im3.png" /></p>
 
 ## Highlight elements:
 ```python3
@@ -90,6 +96,8 @@ class CheckFormulaHightlight(CheckFormulaByTXT):
     }
 ```
 Result:
+
+<p align="center"><img src ="/check_formula_by_txt/images/im4.png" /></p>
 
 ## Change the direction and size of the numbers:
 ```python3
@@ -108,5 +116,7 @@ class CheckFormulaDirectionNumber(CheckFormulaByTXT):
     }
 ```
 Result:
+
+<p align="center"><img src ="/check_formula_by_txt/images/im5.png" /></p>
 
 # If you want to export the number as a list in a .csv file check [this](link)
