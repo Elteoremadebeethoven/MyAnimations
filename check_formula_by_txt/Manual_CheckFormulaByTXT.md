@@ -7,7 +7,7 @@ class CheckFormula(CheckFormulaByTXT):
     }
 ```
 
-You have to render it with `-ps'
+You have to render it with `-ps`
 
 ## Example:
 ```python3
