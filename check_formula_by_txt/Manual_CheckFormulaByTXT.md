@@ -78,7 +78,7 @@ class CheckFormulaBadRemove(CheckFormulaByTXT):
         "\\right)","^","2","}","=","\\pm","\\sqrt{","{","b","^",
         "2","-","4","a","c","\\over","4","a","^","{.}",")",
         ),
-    "remove":[4,13,9,11,19,17,28,29,7] # <- The element 7 missing
+    "remove":[4,13,9,11,19,17,28,7] # <- The element 7 missing
     }
 ```
 Result:
@@ -94,7 +94,7 @@ class CheckFormulaHightlight(CheckFormulaByTXT):
         "\\right)","^","2","}","=","\\pm","\\sqrt{","{","b","^",
         "2","-","4","a","c","\\over","4","a","^","{",")",
         ),
-    "remove":[4,13,9,11,17,19,28,29,7], # Add a comma
+    "remove":[4,13,9,11,17,19,28,7], # Add a comma
     "show_elements":[7,10,18] # <- Add the list
     }
 ```
@@ -111,7 +111,7 @@ class CheckFormulaDirectionNumber(CheckFormulaByTXT):
         "\\right)","^","2","}","=","\\pm","\\sqrt{","{","b","^",
         "2","-","4","a","c","\\over","4","a","^","{.}",")",
         ),
-    "remove":[4,13,9,11,17,19,28,29,7],
+    "remove":[4,13,9,11,17,19,28,7],
     "show_elements":[7,10,18],
     "direction_numbers":DOWN,       # <- Direction
     "numbers_scale":0.9,            # <- Scale of the numbers
