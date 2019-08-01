@@ -43,7 +43,7 @@ class CheckFormula(CheckFormulaByTXT):
         "4",
         "a",
         "^",
-        "{",
+        "{.}",
         ")",
         )
     }
@@ -60,7 +60,7 @@ class CheckFormulaRemove(CheckFormulaByTXT):
     "text":TexMobject(
         "\\sqrt{","\\left(","x","+","{","b","\\over","2","a","}",
         "\\right)","^","2","}","=","\\pm","\\sqrt{","{","b","^",
-        "2","-","4","a","c","\\over","4","a","^","{",")",
+        "2","-","4","a","c","\\over","4","a","^","{.}",")",
         ), # <- Add a comma
     "remove":[4,13,9,11,17,19,28,29] # <- Add here the list
     }
@@ -76,7 +76,7 @@ class CheckFormulaBadRemove(CheckFormulaByTXT):
     "text":TexMobject(
         "\\sqrt{","\\left(","x","+","{","b","\\over","2","a","}",
         "\\right)","^","2","}","=","\\pm","\\sqrt{","{","b","^",
-        "2","-","4","a","c","\\over","4","a","^","{",")",
+        "2","-","4","a","c","\\over","4","a","^","{.}",")",
         ),
     "remove":[4,13,9,11,19,17,28,29,7] # <- The element 7 missing
     }
@@ -109,7 +109,7 @@ class CheckFormulaDirectionNumber(CheckFormulaByTXT):
     "text":TexMobject(
         "\\sqrt{","\\left(","x","+","{","b","\\over","2","a","}",
         "\\right)","^","2","}","=","\\pm","\\sqrt{","{","b","^",
-        "2","-","4","a","c","\\over","4","a","^","{",")",
+        "2","-","4","a","c","\\over","4","a","^","{.}",")",
         ),
     "remove":[4,13,9,11,17,19,28,29,7],
     "show_elements":[7,10,18],
