@@ -62,7 +62,7 @@ class CheckFormulaRemove(CheckFormulaByTXT):
         "\\right)","^","2","}","=","\\pm","\\sqrt{","{","b","^",
         "2","-","4","a","c","\\over","4","a","^","{.}",")",
         ), # <- Add a comma
-    "remove":[4,13,9,11,17,19,28,29] # <- Add here the list
+    "remove":[4,13,9,11,17,19,28] # <- Add here the list
     }
 ```
 Result:
