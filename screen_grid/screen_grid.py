@@ -89,7 +89,7 @@ class ScreenGrid(VGroup):
         if self.show_points:
             self.add(puntos)
 
-
+# Example:
 class CoordScreen(Scene):
     def construct(self):
         screen_grid = ScreenGrid()
