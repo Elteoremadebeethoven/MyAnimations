@@ -122,7 +122,7 @@ class Zig(Scene):
         self.play(ShowCreation(draw,run_time=1,rate_func=linear))
         self.wait(2)
 
-def custom_time(t,partitions,start,end,func,end_value):
+def custom_time(t,partitions,start,end,func):
     duration = end - start
     fragment_time = 1 / partitions
     start_time = start * fragment_time
@@ -131,14 +131,14 @@ def custom_time(t,partitions,start,end,func,end_value):
     def fix_time(x):
         return (x - start_time) / duration_time
     if t < start_time: 
-        return 0
-    elif start_time <= t and t <= end_time:
+        return func(fix_time(start_time))
+    elif start_time <= t and t < end_time:
         return func(fix_time(t))
     else:
-        return end_value
+        return func(fix_time(end_time))
 
-def Custom(partitions,start,end,func=smooth,end_value=1):
-    return lambda t: custom_time(t,partitions,start,end,func,end_value)
+def Custom(partitions,start,end,func=smooth):
+    return lambda t: custom_time(t,partitions,start,end,func)
 
 class StartAnimationInTheMiddleOfAnother(Scene):
     def construct(self):
@@ -150,11 +150,11 @@ class StartAnimationInTheMiddleOfAnother(Scene):
         self.add(time)
         self.play(
             # 6 partitions, that is (total_time = 4):
-            # ShowCreation starts at t=0 and end t=(5/6)*total_time=3.333s
+            # ShowCreation starts at t=(0/6)*total_time=0s and end t=(5/6)*total_time=3.333s
             ShowCreation(c,  rate_func=Custom(6,0,5)),
-            # FadeIn starts at t=1.3333s and end t=(4/6)*total_time=2.6666s
-            FadeIn(s,        rate_func=Custom(6,2,4,func=there_and_back,end_value=0)),
-            # GrowFromCenter starts at t=2.6666s and end t=(6/6)*total_time=4s
+            # FadeIn starts at t=(2/6)*total_time=1.3333s and end t=(4/6)*total_time=2.6666s
+            FadeIn(s,        rate_func=Custom(6,2,4,func=there_and_back)),
+            # GrowFromCenter starts at t=(4/6)*total_time=2.6666s and end t=(6/6)*total_time=4s
             GrowFromCenter(l,rate_func=Custom(6,4,6)),
             run_time=4 # <- total_time
             )
@@ -174,31 +174,37 @@ class MeasureObject2(Scene):
     def construct(self):
         triangle = RegularPolygon(n=3)
         #Vertices
-        triangle.vertices_text = self.get_vertices(triangle)
-        triangle.vertices_text.add_updater(lambda mob: mob.become(self.get_vertices(triangle)))
+        triangle.vertices_text = VMobject()
+        triangle.vertices_text.add_updater(lambda mob: mob.become(self.get_triangle_vertices(triangle)))
         #Measure side
-        triangle.measure1 = self.get_measure_side(triangle,1,0,"a")
-        triangle.measure1.add_updater(lambda mob: mob.become(self.get_measure_side(triangle,1,0,"a")))
-        triangle.measure2 = self.get_measure_side(triangle,2,1,"b")
-        triangle.measure2.add_updater(lambda mob: mob.become(self.get_measure_side(triangle,2,1,"b")))
+        triangle.measure1 = VMobject()
+        triangle.measure1.add_updater(self.get_updater_side(triangle,0,1,"a"))
+        triangle.measure2 = VMobject()
+        triangle.measure2.add_updater(self.get_updater_side(triangle,1,2,"b",color=TEAL))
         #Sides
         self.add(triangle,triangle.vertices_text,triangle.measure1,triangle.measure2)
+        self.wait()
         self.play(triangle.scale,[5,2,1])
+        self.wait()
         self.play(triangle.scale,[0.7,2,1])
         self.wait(2)
 
-    def get_measure_side(self,mob,vert1,vert2,tex,buff=2):
-        vertices = mob.get_vertices()
-        side = Line(vertices[vert1],vertices[vert2])
-        return MeasureDistance(side).add_tips().add_letter(tex,buff=buff)
-
-    def get_vertices(self,mob,buff=0.1):
+    def get_triangle_vertices(self,mob,buff=0.3):
         vertices = mob.get_vertices()
         vertices_text = VGroup(*[
-            Text(f"{v}",height=2,stroke_width=0,font="Times").next_to(vert,vert-mob.get_center(),buff=buff)
+            Text(f"{v}",height=2,stroke_width=0,font="Times")\
+            .move_to(mob.get_center()+(vert-mob.get_center())*(buff/get_norm(vert)+1))
             for v,vert in zip(range(len(vertices)),vertices)]
             )
         return vertices_text
+
+    def get_measure_side(self,mob,vert1,vert2,tex,buff=2,**kwargs):
+        vertices = mob.get_vertices()
+        side = Line(vertices[vert2],vertices[vert1])
+        return MeasureDistance(side,**kwargs).add_tips().add_letter(tex,buff=buff)
+
+    def get_updater_side(self,*args,**kwargs):
+        return lambda mob: mob.become(self.get_measure_side(*args,**kwargs))
 
 class PatternExample(Scene):
     def construct(self):
@@ -219,7 +225,7 @@ class FadeInFromEdgesExample(FormulaExample):
         # tex = TexMobject("Multiple","Formula")
         # Then you have to specify the number of array, that is:
         # FadeInFromEdges(tex[0]) or FadeInFromEdges(tex[1])
-        # Same rules to: FadeInFromDirections and FadeInFromRandom
+        # Same rules to FadeInFromDirections and FadeInFromRandom
         self.play(
             FadeInFromEdges(self.tex_example[0]),
             run_time=3
