@@ -137,6 +137,8 @@ class WriteRandomScene(Scene):
     def construct(self):
         text = TextMobject("This is some text").set_width(FRAME_WIDTH-0.5)
         self.wait(3)
+        # Why text[0]?
+        # answer: https://www.youtube.com/watch?v=qfifBmYTEfA
         self.play(WriteRandom(text[0]))
         self.wait()
         self.play(UnWriteRandom(text[0]))
@@ -146,6 +148,8 @@ class WriteRandomScene(Scene):
 class FadeFromRandomScene(Scene):
     def construct(self):
         text = TextMobject("This is some text").set_width(FRAME_WIDTH-0.5)
+        # Why text[0]?
+        # answer: https://www.youtube.com/watch?v=qfifBmYTEfA
         self.play(FadeInFromRandom(text[0]))
         self.wait()
         self.play(FadeOutFromRandom(text[0]))
@@ -154,6 +158,8 @@ class FadeFromRandomScene(Scene):
 class GrowFromRandomScene(Scene):
     def construct(self):
         text = TextMobject("This is some text").set_width(FRAME_WIDTH-0.5)
+        # Why text[0]?
+        # answer: https://www.youtube.com/watch?v=qfifBmYTEfA
         self.play(GrowFromRandom(text[0]))
         self.wait()
         self.play(UnGrowFromRandom(text[0]))
@@ -162,6 +168,8 @@ class GrowFromRandomScene(Scene):
 class FadeRandomScene(Scene):
     def construct(self):
         text = TextMobject("This is some text").set_width(FRAME_WIDTH-0.5)
+        # Why text[0]?
+        # answer: https://www.youtube.com/watch?v=qfifBmYTEfA
         self.play(FadeInRandom(text[0]))
         self.wait()
         self.play(FadeOutRandom(text[0]))
@@ -170,6 +178,8 @@ class FadeRandomScene(Scene):
 class GrowRandomScene(Scene):
     def construct(self):
         text = TextMobject("This is some text").set_width(FRAME_WIDTH-0.5)
+        # Why text[0]?
+        # answer: https://www.youtube.com/watch?v=qfifBmYTEfA
         self.play(GrowRandom(text[0]))
         self.wait()
         self.play(UnGrowRandom(text[0]))
