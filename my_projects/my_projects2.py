@@ -14,13 +14,8 @@ def return_random_from_word(word):
     OUTPUT: [3,0,2,1] # Random list
     """
     rango = list(range(len(word)))
-    rango_c = rango.copy()
-    random_list = []
-    for i in rango:
-        num_random = random.choice(rango_c)
-        rango_c.remove(num_random)
-        random_list.append(num_random)
-    return random_list
+    random.shuffle(rango)
+    return rango
 
 def return_random_direction(word):
     """
