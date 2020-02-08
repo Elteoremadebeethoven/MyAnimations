@@ -36,7 +36,7 @@ class ScreenGrid(VGroup):
         "grid_color": WHITE,
         "axis_color": RED,
         "axis_stroke": 2,
-        "labels_scale": 0.5,
+        "labels_scale": 0.25,
         "labels_buff": 0,
         "number_decimals": 2
     }
@@ -75,7 +75,7 @@ class ScreenGrid(VGroup):
                 for v_i, directions_buff in zip(vi_c, d_buff):
                     ubication = v_i + orientation * division * i
                     coord_point = round(ubication[coord], self.number_decimals)
-                    label = Text(f"{coord_point}").scale(self.labels_scale)
+                    label = Text(f"{coord_point}",font="Arial",stroke_width=0).scale(self.labels_scale)
                     label.next_to(ubication, directions_buff, buff=self.labels_buff)
                     labels.add(label)
 
