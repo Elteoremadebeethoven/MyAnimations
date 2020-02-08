@@ -80,3 +80,12 @@ class ScreenGrid(VGroup):
                     labels.add(label)
 
         self.add(grid, axes, labels)
+
+
+class CoordScreen(Scene):
+    def construct(self):
+        screen_grid = ScreenGrid()
+        dot = Dot([1, 1, 0])
+        self.add(screen_grid)
+        self.play(FadeIn(dot))
+        self.wait()
