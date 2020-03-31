@@ -1,4 +1,5 @@
 # NOTE: READ LINE 59
+class PythagoreanProof(Scene):
     CONFIG = {
         "square_scale": 2,
     }
