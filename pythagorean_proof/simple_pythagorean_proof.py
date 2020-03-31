@@ -8,9 +8,8 @@ class PythagoreanProof(Scene):
         VGroup(left_square,right_square)\
                 .scale(self.square_scale)\
                 .arrange_submobjects(RIGHT,buff=2)
-        # FORMULAS
-        theorem = TexMobject("c^2","=","a^2","+","b^2",color=BLUE).to_edge(DOWN)
-        # FIRST SQUARE SETTINGS
+
+        # LEFT SQUARE SETTINGS
         dots = [
             left_square.point_from_proportion(i * 1/4 + 1/16) 
             for i in range(4)
@@ -78,6 +77,8 @@ class PythagoreanProof(Scene):
             for rect in rect_dot
             for i in [0,2]
         ])
+        # FORMULAS
+        theorem = TexMobject("c^2","=","a^2","+","b^2",color=BLUE).to_edge(DOWN)
         parts_theorem = VGroup(
             TexMobject("a^2").move_to(left_square),
             TexMobject("b^2").move_to(squares[0]),
