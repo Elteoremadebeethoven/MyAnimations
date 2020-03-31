@@ -1,5 +1,4 @@
-# NOTE: READ LINE 47
-class PythagoreanProof(Scene):
+# NOTE: READ LINE 59
     CONFIG = {
         "square_scale": 2,
     }
@@ -11,8 +10,14 @@ class PythagoreanProof(Scene):
         # FORMULAS
         theorem = TexMobject("c^2","=","a^2","+","b^2",color=BLUE).to_edge(DOWN)
         # FIRST SQUARE SETTINGS
-        dots = [left_square.point_from_proportion(i * 1/4 + 1/16) for i in range(4)]
-        dots_corners = [left_square.point_from_proportion(i * 1/4) for i in range(4)]
+        dots = [
+            left_square.point_from_proportion(i * 1/4 + 1/16) 
+            for i in range(4)
+        ]
+        dots_corners = [
+            left_square.point_from_proportion(i * 1/4)
+            for i in range(4)
+        ]
         triangles = VGroup(*[
             Polygon(
                 dots[i],
@@ -25,11 +30,18 @@ class PythagoreanProof(Scene):
         ])
         # RIGHT SQUARE SETTINGS
         dots2 = [
-                right_square.point_from_proportion(i * 1/4 + j * 1/16)
-                for i,j in zip(range(4),[1,3,3,1])
+            right_square.point_from_proportion(i * 1/4 + j * 1/16)
+            for i,j in zip(range(4),[1,3,3,1])
         ]
-        dots_corners2 = [right_square.point_from_proportion(i * 1/4) for i in range(4)]
-        middle = np.array([dots2[0][0],dots2[1][1],0])
+        dots_corners2 = [
+            right_square.point_from_proportion(i * 1/4) 
+            for i in range(4)
+        ]
+        middle = np.array([
+            dots2[0][0],
+            dots2[1][1],
+            0
+        ])
 
         all_rectangles = VGroup(*[
             Polygon(
@@ -73,12 +85,18 @@ class PythagoreanProof(Scene):
         #print(len(triangles2))
 
         self.play(
-            *list(map(DrawBorderThenFill,[left_square,right_square,triangles.copy()]))
+            *list(map(
+                DrawBorderThenFill,
+                [left_square,right_square,triangles.copy()
+            ]))
         )
         #"""
         self.play(
             *[
-                ApplyMethod(triangles[i].move_to,triangles2[i].get_center())
+                ApplyMethod(
+                    triangles[i].move_to,
+                    triangles2[i].get_center()
+                )
                 for i in range(len(triangles))
             ]
         )
@@ -93,15 +111,14 @@ class PythagoreanProof(Scene):
         #"""
 
         self.play(
-                *[
-                    ReplacementTransform(
-                        t_.copy()[:],r_,
-                        run_time=4
-                    )
-                    for t_,r_ in zip(parts_theorem,[theorem[2],theorem[-1],theorem[0]])
-                ],
-                Write(theorem[1]),Write(theorem[-2])
-            )
-
+            *[
+                ReplacementTransform(
+                    t_.copy()[:],r_,
+                    run_time=4
+                )
+                for t_,r_ in zip(parts_theorem,[theorem[2],theorem[-1],theorem[0]])
+            ],
+            Write(theorem[1]),Write(theorem[-2])
+        )
 
         self.wait(3)
