@@ -1,4 +1,4 @@
-# My objects and animatios of manim
+# My objects and animations of manim
 
 In this repository you will find the code and files of my own animations of manim.
 
