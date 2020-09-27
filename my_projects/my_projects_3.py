@@ -413,7 +413,7 @@ class CenterTextScene(KeyboardScene, ThreeDScene):
     def fade_in_one_by_one(self, paragraph, *args, **kwargs):
         self.play(
             LaggedStart(*[
-                Write(letter) for letter in paragraph
+                FadeIn(letter) for letter in paragraph
             ]),
             **kwargs
         )
@@ -1039,10 +1039,330 @@ class Slide8(CenterTextScene):
             #"1": r"\flushleft "
         },
         "justify_length": 9.5,
-        "pause_before_remove": 8,
+        "pause_before_remove": 9.3,
     }
     def modify_something(self):
         pass
         # animathed = self.texts[0][23:32]
         # animathed.set_sheen(0.0,UP)
         # animathed.set_color(color=[WHITE,GRAY,GRAY])
+
+class Slide9(CenterTextScene):
+    CONFIG = {
+        "index_paragraphs": [*range(15,16)],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "FadeIn",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "Fall",
+        "animation_kwargs_in": {
+            "direction": RIGHT,
+            "phi": 90*DEGREES,
+            "run_time": 9
+        },
+        "animation_kwargs_out": {"direction": RIGHT, "run_time": 3},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1.5],
+        "colored_text": [
+            (0, [RED, 11, 40]),
+            (0, [GREEN, 167+3, 173+3]),
+            (0, [BLUE, 177+3, 185+3]),
+        ],
+        "test_code": False,
+        "align_text": {
+            "0": r"\flushleft "
+        },
+        "justify_length": 7.3,
+        "pause_before_remove": 2,
+    }
+
+class Slide10(CenterTextScene):
+    CONFIG = {
+        "index_paragraphs": [*range(16, 18)],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "FromOutCamera",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "ToOutCamera",
+        "animation_kwargs_in": {
+            "direction": RIGHT,
+            "phi": 90*DEGREES,
+            "run_time": 2
+        },
+        "animation_kwargs_out": {"direction": RIGHT, "run_time": 2},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1.5],
+        "colored_text": [
+            (0, [RED, 11, 18]),
+            (1, [TEAL, 92, 117]),
+        ],
+        "test_code": False,
+        "align_text": {
+            #"0": r"\flushleft "
+        },
+        "justify_length": 7,
+        "pause_before_remove": 6.5,
+    }
+
+class Slide11(CenterTextScene):
+    CONFIG = {
+        "index_paragraphs": [*range(18, 20)],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "FromOutCamera",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "ToOutCamera",
+        "animation_kwargs_in": {
+            "direction": UP,
+            "phi": 90*DEGREES,
+            "run_time": 2
+        },
+        "animation_kwargs_out": {"direction": UP, "run_time": 2},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1.5],
+        "colored_text": [
+            (0, [TEAL, 48, 61]),
+            (1, [ORANGE, 41, 48]),
+        ],
+        "test_code": False,
+        "align_text": {
+            #"0": r"\flushleft "
+        },
+        "justify_length": 7,
+        "pause_before_remove": 6.5,
+    }
+
+class Slide12(CenterTextScene):
+    CONFIG = {
+        "index_paragraphs": [*range(20, 24)],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "FromOutCamera",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "ToOutCamera",
+        "animation_kwargs_in": {
+            "direction": UP,
+            "phi": 90*DEGREES,
+            "run_time": 2
+        },
+        "animation_kwargs_out": {"direction": RIGHT, "run_time": 2},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1.5],
+        "colored_text": [
+            (1, [RED, 66, 69]),
+            (1, [RED, 80, 93]),
+            (1, [RED, 113, 116]),
+            (2, [BLUE, 88, 98]),
+        ],
+        "test_code": False,
+        "align_text": {
+            #"0": r"\flushleft "
+        },
+        "justify_length": 8,
+        "pause_before_remove": 6.5,
+    }
+
+class Slide13(CenterTextScene):
+    CONFIG = {
+        "index_paragraphs": [*range(24, 27)],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "TransformFromPolygon",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "Fall",
+        "animation_kwargs_in": {
+            "direction": UP,
+            "phi": 90*DEGREES,
+            "run_time": 2
+        },
+        "animation_kwargs_out": {"direction": UP, "run_time": 2},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1.5],
+        "colored_text": [
+            (0 , [GREEN, 35, 42]),
+            (1 , [ORANGE, 17, 25]),
+        ],
+        "test_code": False,
+        "align_text": {
+            #"0": r"\flushleft "
+        },
+        "justify_length": 7,
+        "pause_before_remove": 2.5,
+    }
+
+class Slide14(CenterTextScene):
+    CONFIG = {
+        "index_paragraphs": [*range(28, 30)],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "FadeInFrom3DCamera",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "FadeOutToBlackRectangle",
+        "animation_kwargs_in": {
+            "direction": UP,
+            "phi": 90*DEGREES,
+            "run_time": 2
+        },
+        "animation_kwargs_out": {"direction": UP, "run_time": 2},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1.5],
+        "colored_text": [
+            (0 , [GREEN, 331,35]),
+            (1 , [BLUE, 106, 117]),
+        ],
+        "test_code": False,
+        "align_text": {
+            #"0": r"\flushleft "
+        },
+        "justify_length": 7,
+        "pause_before_remove": 8,
+    }
+    def modify_something(self):
+        animathed = self.texts[0][45:54]
+        animathed.set_sheen(0.0,UP)
+        animathed.set_color(color=[WHITE,GRAY,GRAY])
+
+class Slide15(CenterTextScene):
+    CONFIG = {
+        "index_paragraphs": [*range(30,33)],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "Keyboard",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "FadeOutToBlackRectangle",
+        "animation_kwargs_in": {
+            "direction": UP,
+            "phi": 90*DEGREES,
+            "run_time": 2
+        },
+        "animation_kwargs_out": {"direction": UP, "run_time": 2},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1.5],
+        "colored_text": [
+        ],
+        "test_code": False,
+        "align_text": {
+            #"0": r"\flushleft "
+        },
+        "justify_length": 7,
+        "pause_before_remove": 2,
+    }
