@@ -191,7 +191,10 @@ class CenterTextScene(KeyboardScene, ThreeDScene):
             (0, [RED, 3, 4]),
             (1, [TEAL, 4, 6])
         ],
-        "test_code": False
+        "test_code": True,
+        "align_text": {
+            #"1": r"\flushleft "
+        }
     }
     def setup(self):
         paragraph = open(f"guiones/{self.script_name}.txt","r")
@@ -206,10 +209,18 @@ class CenterTextScene(KeyboardScene, ThreeDScene):
             color, start, end = color_settings[1]
             formula[start:end+1].set_color(color)
 
+    def get_pre(self,i):
+        try:
+            align = self.align_text[str(i)]
+            return align
+        except:
+            pre = fr"\tt {align}" if self.animation_in == "Keyboard" else ""
+            return pre
+
     def construct(self):
-        pre = r"\tt " if self.animation_in == "Keyboard" else ""
+        
         texts = VGroup(*[
-            TextJustify(fr"{pre}{self.all_paragraph[i]}")
+            TextJustify(fr"{self.get_pre(i)}{self.all_paragraph[i]}")
             for i in self.index_paragraphs
         ]).arrange(DOWN,buff=0.5)
         texts.set_width(FRAME_WIDTH-1)
