@@ -84,7 +84,7 @@ class KeyboardScene(Scene):
         def return_random():
             return random.randint(1, self.range_random)
         for i in range(len(text)):
-            self.add_sound("typewriter/key%s"%return_random())
+            self.add_sound("keyboard/key%s"%return_random())
             text[i].set_fill(None, 1)
             self.play(LaggedStartMap(FadeIn, 
                         text[i], run_time=self.rate_factor*len(text[i]),
@@ -167,6 +167,7 @@ class CenterTextScene(KeyboardScene, ThreeDScene):
         # 8. FadeIn
         # 9. FromOutCamera: left, right, down, left
         # 10. LineDelivery
+        # 11. ScaleFromBig
         "animation_in": "FadeInFromBlackRectangle",
         # 1. Fall
         # 2. FadeOutRandom
@@ -178,6 +179,7 @@ class CenterTextScene(KeyboardScene, ThreeDScene):
         # 8. FadeOut
         # 9. ToOutCamera: left, right, down, left
         # 10. StealLines
+        # 11. ScaleToSmall
         "animation_out": "FadeOutToBlackRectangle",
         "animation_kwargs_in": {
             "direction": RIGHT,
@@ -194,7 +196,9 @@ class CenterTextScene(KeyboardScene, ThreeDScene):
         "test_code": True,
         "align_text": {
             #"1": r"\flushleft "
-        }
+        },
+        "justify_length": 7,
+        "pause_before_remove": 2
     }
     def setup(self):
         paragraph = open(f"guiones/{self.script_name}.txt","r")
@@ -214,16 +218,20 @@ class CenterTextScene(KeyboardScene, ThreeDScene):
             align = self.align_text[str(i)]
             return align
         except:
-            pre = fr"\tt {align}" if self.animation_in == "Keyboard" else ""
+            pre = fr"\tt " if self.animation_in == "Keyboard" else ""
             return pre
 
     def construct(self):
-        
         texts = VGroup(*[
-            TextJustify(fr"{self.get_pre(i)}{self.all_paragraph[i]}")
+            TextJustify(fr"{self.get_pre(i)}{self.all_paragraph[i]}", 
+                text_width_line=self.justify_length)
             for i in self.index_paragraphs
         ]).arrange(DOWN,buff=0.5)
-        texts.set_width(FRAME_WIDTH-1)
+        ratio = texts.get_width() / texts.get_height()
+        if ratio > FRAME_WIDTH / FRAME_HEIGHT:
+            texts.set_width(FRAME_WIDTH-1)
+        else:
+            texts.set_height(FRAME_HEIGHT-1)
         self.texts = texts
         self.texts_0 = VGroup(*[mob[0] for mob in self.texts])
         self.signs = it.cycle([1,-1])
@@ -233,14 +241,15 @@ class CenterTextScene(KeyboardScene, ThreeDScene):
             for submob in self.texts
             for mob in submob
         ])
+        self.modify_something()
         self.set_color_text()
         if not self.test_code:
             for i,paragraph in enumerate(texts):
                 try:
                     phi = self.animation_kwargs_in["phi"]
-                    if self.animation_kwargs_in == "FadeOutFrom3DCamera" and phi > 0:
+                    if self.animation_in == "FadeInFrom3DCamera" and phi > 0:
                         try_break = True
-                        sub_paragraph = self.all_word
+                        sub_paragraph = self.all_words
                     else:
                         try_break = False
                         sub_paragraph = paragraph
@@ -251,14 +260,18 @@ class CenterTextScene(KeyboardScene, ThreeDScene):
                 try: 
                     self.wait(self.middle_pauses[i])
                 except:
-                    self.wait(min(*self.middle_pauses))
+                    try:
+                        self.wait(min(*self.middle_pauses))
+                    except:
+                        self.wait(self.middle_pauses[0])
                 if try_break:
                     break
+            self.wait(self.pause_before_remove)
             self.remove_text()
-            self.wait()
         else:
             for paragraph in self.texts:
                 self.show_numbers(paragraph)
+        self.wait()
 
     def show_text(self,paragraph):
         if self.animation_in == "Keyboard":
@@ -281,12 +294,29 @@ class CenterTextScene(KeyboardScene, ThreeDScene):
             self.from_out_camera(paragraph,**self.animation_kwargs_in)
         elif self.animation_in == "LineDelivery":
             self.line_delivery(paragraph,**self.animation_kwargs_in)
+        elif self.animation_in == "ScaleFromBig":
+            self.scale_from_big(paragraph,**self.animation_kwargs_in)
         else:
             print("There is not animation in")
 
     # methods definitions in
     def keyboard_scene(self, paragraph, *args, **kwargs):
         self.keyboard(paragraph)
+
+    def scale_from_big(self, paragraph,*args, scale=3, **kwargs):
+        for mob in paragraph:
+            for submob in mob:
+                submob.save_state()
+                submob.scale(3)
+                submob.fade(1)
+        self.play(
+            LaggedStart(*[
+                Restore(mob)
+                for mob in paragraph
+            ],
+            **kwargs
+            )
+        )
 
     def transform_from_polygon(self, paragraph, *args, scale=7,sides=SIDES_POLYGONS, cycle_colors=POLYGON_COLORS, **kwargs):
         polygons = VGroup(*[
@@ -433,6 +463,8 @@ class CenterTextScene(KeyboardScene, ThreeDScene):
             self.to_out_camera(**self.animation_kwargs_out)
         elif self.animation_out == "StealLines":
             self.steal_lines(**self.animation_kwargs_out)
+        elif self.animation_out == "ScaleToSmall":
+            self.scale_to_small(**self.animation_kwargs_out)
         else:
             print("There is not animation in")
 
@@ -578,6 +610,26 @@ class CenterTextScene(KeyboardScene, ThreeDScene):
     def steal_lines(self, *args, **kwargs):
         pass
 
+    def scale_to_small(self, *args, **kwargs):
+        paragraph = self.get_shuffle_lists()
+        for mob in paragraph:
+            for submob in mob:
+                submob.generate_target()
+                submob.target.scale(0.001)
+                submob.target.fade(1)
+
+        self.play(*[
+            AnimationGroup(*[
+                LaggedStart(*[
+                        MoveToTarget(submob,remover=True)
+                        for submob in mob 
+                    ])
+                ])
+                for mob in paragraph
+            ],
+            **kwargs
+        )
+
     def show_numbers(self, text, height=0.15, buff=0):
             colors = it.cycle(COLORS)
             numbers = VGroup(*[
@@ -614,3 +666,383 @@ class CenterTextScene(KeyboardScene, ThreeDScene):
                 VGroup(*[rects[i] for i in array])
             )
         return shuffle_letters, shuffle_rectangles
+
+    def modify_something(self):
+        pass
+
+
+class Slide1(CenterTextScene):
+    CONFIG = {
+        "script_name": "manim_ends",
+        "index_paragraphs": [0,1],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "FadeInFromBlackRectangle",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "FadeOutToBlackRectangle",
+        "animation_kwargs_in": {
+            "direction": RIGHT,
+            "phi": 0,
+            "run_time": 4.5
+        },
+        "animation_kwargs_out": {"direction": RIGHT, "run_time": 2.2},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1.5],
+        "colored_text": [
+            (0, [RED, 26,28]),
+        ],
+        "test_code": False,
+        "align_text": {
+            #"1": r"\flushleft "
+        }
+    }
+
+class Slide2(CenterTextScene):
+    CONFIG = {
+        "index_paragraphs": [*range(2,3)],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "FadeInFromBlackRectangle",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "FadeOutToBlackRectangle",
+        "animation_kwargs_in": {
+            "direction": RIGHT,
+            "phi": 0,
+            "run_time": 7.5
+        },
+        "animation_kwargs_out": {"direction": RIGHT, "run_time": 2.5},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1.5],
+        "colored_text": [
+            (0, [GREEN_D, 28, 36]),
+            (0, [TEAL, 140, 164]),
+        ],
+        "test_code": False,
+        "align_text": {
+            #"1": r"\flushleft "
+        },
+        "pause_before_remove": 2,
+    }
+
+class Slide3(CenterTextScene):
+    CONFIG = {
+        "index_paragraphs": [*range(3,4+1)],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "TransformFromPolygon",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "UnWriteAll",
+        "animation_kwargs_in": {
+            "direction": RIGHT,
+            "phi": 0,
+            "run_time": 7
+        },
+        "animation_kwargs_out": {"direction": RIGHT, "run_time": 3},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1.5],
+        "colored_text": [
+            (0, [GREEN_D, 72, 90]),
+        ],
+        "test_code": False,
+        "align_text": {
+            #"1": r"\flushleft "
+        },
+        "pause_before_remove": 2,
+    }
+
+class Slide4(CenterTextScene):
+    CONFIG = {
+        "index_paragraphs": [*range(5,7)],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "FadeInFrom3DRotate",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "FadeOutFrom3DRotate",
+        "animation_kwargs_in": {
+            "direction": RIGHT,
+            "phi": 0,
+            "run_time": 4
+        },
+        "animation_kwargs_out": {"direction": RIGHT, "run_time": 3.5},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1],
+        "colored_text": [
+            (1, [RED, 23, 29]),
+        ],
+        "test_code": False,
+        "align_text": {
+            #"1": r"\flushleft "
+        },
+        "pause_before_remove": 2,
+    }
+    def modify_something(self):
+        animathed = self.texts[0][23:32]
+        animathed.set_sheen(0.0,UP)
+        animathed.set_color(color=[WHITE,GRAY,GRAY])
+
+class Slide5(CenterTextScene):
+    CONFIG = {
+        "index_paragraphs": [*range(7,9)],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "FadeInFrom3DCamera",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "FadeOutFrom3DCamera",
+        "animation_kwargs_in": {
+            "direction": RIGHT,
+            "phi": 0,
+            "run_time": 2.4
+        },
+        "animation_kwargs_out": {"direction": RIGHT, "run_time": 2.5},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1.5],
+        "colored_text": [
+            (0, [RED, 10, 17]),
+            (1, [BLUE, 1, 5]),
+            (1, [GREEN, 49, 57]),
+        ],
+        "test_code": False,
+        "align_text": {
+            #"1": r"\flushleft "
+        },
+        "pause_before_remove": 3,
+    }
+    def modify_something(self):
+        pass
+        # animathed = self.texts[0][23:32]
+        # animathed.set_sheen(0.0,UP)
+        # animathed.set_color(color=[WHITE,GRAY,GRAY])
+
+class Slide6(CenterTextScene):
+    CONFIG = {
+        "index_paragraphs": [*range(9,11)],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "ScaleFromBig",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "ScaleToSmall",
+        "animation_kwargs_in": {
+            "direction": RIGHT,
+            "phi": 0,
+            "run_time": 3.5
+        },
+        "animation_kwargs_out": {"direction": RIGHT, "run_time": 4},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1.5],
+        "colored_text": [
+            (0, [RED, 23, 32]),
+            (1, [BLUE, 64, 66]),
+        ],
+        "test_code": False,
+        "align_text": {
+            #"1": r"\flushleft "
+        },
+        "pause_before_remove": 2,
+    }
+    def modify_something(self):
+        pass
+        # animathed = self.texts[0][23:32]
+        # animathed.set_sheen(0.0,UP)
+        # animathed.set_color(color=[WHITE,GRAY,GRAY])
+
+class Slide7(CenterTextScene):
+    CONFIG = {
+        "index_paragraphs": [*range(11,13)],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "Write",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "UnWriteAll",
+        "animation_kwargs_in": {
+            "direction": RIGHT,
+            "phi": 0,
+            "run_time": 3.5
+        },
+        "animation_kwargs_out": {"direction": RIGHT, "run_time": 2},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1.5],
+        "colored_text": [
+            (0, [RED, 88,94]),
+            (1, [BLUE, 72, 74]),
+        ],
+        "test_code": False,
+        "align_text": {
+            #"1": r"\flushleft "
+        },
+        "pause_before_remove": 2,
+    }
+    def modify_something(self):
+        pass
+        # animathed = self.texts[0][23:32]
+        # animathed.set_sheen(0.0,UP)
+        # animathed.set_color(color=[WHITE,GRAY,GRAY])
+
+class Slide8(CenterTextScene):
+    CONFIG = {
+        "index_paragraphs": [*range(13,15)],
+        # 1. Keyboard
+        # 2. TransformFromPolygon
+        # 3. FadeInFromBlackRectangle
+        # 4. ShowFromDowm
+        # 5. FadeInFrom3DCamera
+        # 6. FadeInFrom3DRotate
+        # 7. Write
+        # 8. FadeIn
+        # 9. FromOutCamera: left, right, down, left
+        # 10. LineDelivery
+        "animation_in": "FadeInFrom3DCamera",
+        # 1. Fall
+        # 2. FadeOutRandom
+        # 3. FadeOutToBlackRectangle
+        # 4. FallWithAcceleration
+        # 5. FadeOutFrom3DCamera
+        # 6. FadeOutFrom3DRotate
+        # 7. UnWriteAll
+        # 8. FadeOut
+        # 9. ToOutCamera: left, right, down, left
+        # 10. StealLines
+        "animation_out": "FadeOutFrom3DCamera",
+        "animation_kwargs_in": {
+            "direction": RIGHT,
+            "phi": 90*DEGREES,
+            "run_time": 3.5
+        },
+        "animation_kwargs_out": {"direction": RIGHT, "run_time": 3},
+        "pause_at_start": 0.1,
+        "middle_pauses": [1.5],
+        "colored_text": [
+            (0, [RED, 7, 14]),
+            (0, [RED, 31, 38]),
+            (1, [GREEN, 35, 40]),
+        ],
+        "test_code": False,
+        "align_text": {
+            #"1": r"\flushleft "
+        },
+        "justify_length": 9.5,
+        "pause_before_remove": 8,
+    }
+    def modify_something(self):
+        pass
+        # animathed = self.texts[0][23:32]
+        # animathed.set_sheen(0.0,UP)
+        # animathed.set_color(color=[WHITE,GRAY,GRAY])
