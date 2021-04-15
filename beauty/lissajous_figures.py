@@ -1,5 +1,3 @@
-# ManimGL
-# inspired by https://www.youtube.com/watch?v=kQ7A_bO0Efo
 from manimlib import *
 
 class ManimScene(Scene):
@@ -196,7 +194,12 @@ class ManimScene(Scene):
             run_time=self.run_time,
             rate_func=linear
         )
-        self.wait(4)
+        self.wait(3)
+        black_rect = Rectangle(3,3,fill_opacity=1,fill_color=BLACK,stroke_color=BLACK)\
+            .set_width(FRAME_WIDTH,stretch=True)\
+            .set_height(FRAME_HEIGHT,stretch=True)
+        self.play(FadeIn(black_rect))
+        self.wait(0.5)
 
     def get_grids(self):
         nx, ny = self.n_x, self.n_y
