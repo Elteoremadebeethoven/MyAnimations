@@ -30,7 +30,7 @@ class ScreenGrid(VGroup):
     CONFIG = {
         "rows": 8,
         "columns": 14,
-        "height": FRAME_Y_RADIUS * 2,
+        "height": config.frame_y_radius * 2,
         "width": 14,
         "grid_stroke": 0.5,
         "grid_color": WHITE,
