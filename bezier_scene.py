@@ -1,3 +1,4 @@
+# ManimGL v1.2
 from numpy import dot
 from manimlib import *
 
